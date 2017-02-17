@@ -1,0 +1,224 @@
+*{
+	margin: 0;
+	padding:  0;
+}
+body {
+	margin: 0; padding: 0; 
+}
+.hidden_box{
+    position: absolute;
+	left: 0;
+    right: 0;
+    top: -1000px;
+}
+.show_box .title{
+	padding: 5px;
+	position:relative;
+    background: -webkit-linear-gradient(left , #3274c1, #c9c4d2);
+    background: -o-linear-gradient(right, #3274c1, #c9c4d2);
+    background: -moz-linear-gradient(right, #3274c1, #c9c4d2);
+    background: linear-gradient(to right, #3274c1, #c9c4d2);
+}
+
+.show_box .title .level{
+	color: #c3af44;
+    text-shadow: 1px 1px 1px grey;
+}
+
+.show_box .title .time_box{
+    position: absolute;
+    right: 0;
+    top: 0;
+	width:170px;
+	margin:5px;
+    background-color: #fff;
+    border-radius: 50px;
+}
+
+.show_box .title .time_box .time_txt{
+	display: inline-block;
+	font-size:13px;
+	margin:2px 2px;
+    background-color: #9a8a36;
+    border-radius: 50px;
+    padding: 0px 10px;
+	color:#fff;
+}
+.show_box .title .time_box .time_value{
+    position: absolute;
+    right: 10px;
+    top: 0;
+	color: #9a8a36;
+}
+.show_box #memory_line,#answer_line{
+	position:relative;
+	text-align: center;
+	overflow: hidden;
+}
+.question_line{
+    position: absolute;
+    padding: 10px 0px;
+    right: 0;
+    left: 0;
+}
+.question_line .question_box,.num_box_1,.symbol_box,.num_box_2,.equal_box,.answer_box{
+	text-align:center;
+	display: inline-block;
+	margin-left:-5px;
+}
+.question_line .question_box{
+	background: #d6dbea;
+    padding: 0 10px;
+    border-radius: 50px;
+    color: #fff;
+    position: relative;
+    top: -15px;
+	margin-right:5px;
+}
+
+.question_line .num_box_1,.symbol_box,.num_box_2,.equal_box{
+	width:38px;
+}
+.question_line .answer_box{
+	width:50px;
+	position: relative;
+	text-align: center;
+	margin-left:0px;
+}
+
+#answer_line .question_line .answer_box .result{
+	position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 58px;
+    filter: alpha(opacity=90);
+    -moz-opacity: 0.9;
+    -khtml-opacity: 0.9;
+    opacity: 0.9;
+}
+
+	
+.question_line .txt_big{
+	font-size:58px;
+}
+.question_line .txt_middle{
+	font-size:30px;
+}
+.question_line .txt_small{
+	font-size:16px;
+}
+
+.answer_box{
+	display: inline-block;
+	border:2px solid #000;
+	box-sizing: border-box;
+}
+
+
+
+
+#word_result_box{
+	padding:20px 0 5px 0;
+	text-align: center;
+}
+#word_result_box .right_pic,.colon,.right_num,.slash,.total_num,.right_percent{
+	display: inline-block;
+}
+#word_result_box .right_pic,.right_num{
+	color: #08d035;
+}
+#word_result_box .right_percent{
+    background: #517bad;
+    padding: 0 15px;
+    border-radius: 50px;
+    color: #fff;
+}
+#pic_result_box .pic_right_wrong {
+	padding:5px 10px;
+    text-align: center;
+    overflow: hidden;
+    font-weight: bold;
+}
+#pic_result_box .pic_right_wrong div{
+	margin-left:1px;
+    display: inline-block;
+}
+
+	
+#pic_result_box .right{
+	color: #08d035;
+}
+#pic_result_box .wrong{
+	color: #ff0000;
+}
+#result_box .txt_big{
+	font-size:22px;
+}
+#result_box .txt_middle{
+	font-size:16px;
+}
+#result_box .txt_small{
+	font-size:14px;
+}
+
+#user_answer_box #num_input_box{
+    margin:15px 5%;
+}
+
+#user_answer_box .num_button{
+	display: inline-block;
+    width: 33%;
+    text-align: center;
+    font-size: 30px;
+    box-sizing: border-box;
+    border: 1px solid #eee;
+    background: #aaa;
+    color: #fff;
+	height:50px;
+	line-height:50px;
+}
+
+#user_answer_box .button_empty{
+    color: #aaa;
+}
+
+.button_big{
+	background: #284db9;
+    margin: 5px 20%;
+    color: #fff;
+    text-align: center;
+    font-size: 20px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 10px;
+    -moz-box-shadow: 2px 2px 5px #333333;
+    -webkit-box-shadow: 2px 2px 5px #333333;
+    box-shadow: 2px 2px 5px #333333;
+}
+
+.button_big:active {
+	background: #213e92;
+	color: #0000FF
+}
+
+.button_middle{
+	display: inline-block;
+    width: 80px;
+    background: #284db9;
+    margin: 5px;
+    color: #fff;
+    text-align: center;
+    font-size: 20px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 10px;
+    -moz-box-shadow: 2px 2px 5px #333333;
+    -webkit-box-shadow: 2px 2px 5px #333333;
+    box-shadow: 2px 2px 5px #333333;
+}
+
+.button_middle:active {
+	background: #213e92;
+	color: #0000FF
+}
+

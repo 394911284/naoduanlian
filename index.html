@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+  <title>数字溯答</title>
+  <script>
+    (function() {
+      function addScript(src) {
+        document.write("<scr"+"ipt src='"+src+"'></scr"+"ipt>");
+      }
+      addScript("js/jquery.js");
+      addScript("js/jquery.transit.js");
+      addScript("js/user_draw_input.js?v=6");
+    })();
+  </script>
+  
+  <link href="css/shuzisuda.css?v=3" rel="stylesheet" />
+</head>
+<body>
+
+  <div class='show_box'>
+  
+	  <div class="title">
+		  <div class="level">
+		  快速 11 溯答
+		  </div>
+		  <div class="time_box">
+			  <div class="time_txt">魔鬼锻炼时间</div>
+			  <div class="time_value"><span class="time_num">0</span><span class="time_unit">秒</span></div>
+		  </div>
+	  </div>
+	  
+	  <div id="question_box" style="display:none;">
+		  <div id="memory_line">
+		  </div>
+		  
+		  <hr><hr><hr>
+		  
+		  <div id="answer_line">
+		  </div>
+		  
+		  <hr><hr><hr>
+	  </div>
+	  
+	  <div id="result_box" style="display:none;">
+		  <div id="word_result_box">
+			  <div class="right_pic"><div class="txt_big">O</div></div>
+			  <div class="colon"><div class="txt_big">:</div></div>
+			  <div class="right_num"><div class="txt_big">33题</div></div>
+			  <div class="slash"><div class="txt_middle">/</div></div>
+			  <div class="total_num"><div class="txt_middle">42题</div></div>
+			  <div class="right_percent"><div class="txt_big">78%</div></div>
+		  </div>
+		  <hr>
+		  <div id="pic_result_box">
+			<div class="pic_right_wrong txt_small">
+			<div class="right">O</div>
+			<div class="right">O</div>
+			<div class="right">O</div>
+			<div class="right">O</div>
+			<div class="right">O</div>
+			<div class="right">O</div>
+			<div class="right">O</div>
+			<div class="right">O</div>
+			<div class="wrong">X</div>
+			<div class="right">O</div>
+			<div class="right">O</div>
+			<div class="right">O</div>
+			<div class="wrong">X</div>
+			</div>
+		  </div>
+	  </div>
+	  
+	  <div id="user_answer_box" style="display:none;">
+	  
+	  <div id="num_input_box" style="display:none;">
+	  <div class="num_line"><div class="num_button" key="7">7</div><div class="num_button" key="8">8</div><div class="num_button" key="9">9</div></div>
+	  <div class="num_line"><div class="num_button" key="4">4</div><div class="num_button" key="5">5</div><div class="num_button" key="6">6</div></div>
+	  <div class="num_line"><div class="num_button" key="1">1</div><div class="num_button" key="2">2</div><div class="num_button" key="3">3</div></div>
+	  <div class="num_line"><div class="num_button button_empty" key="*">*</div><div class="num_button" key="0">0</div><div class="num_button button_empty" key="#">#</div></div>
+	  </div>
+	  
+	  
+	  
+	  </div>
+	  <textarea id="output_data_textarea" style="display:none;"></textarea>
+	<canvas id="user_input_canvas" width="300" height="200" style="width: 100%;">
+	Your browser does not support the canvas element.
+	</canvas>
+	  
+	  <div id="output_div" style="display:none;">
+	  </div>
+	  
+	  <div id="output_word" style="display:none;">
+	  </div>
+	  
+	  <div class="button_middle" onclick="javascript:hide_answer_number();user_draw_input.clear_canvas_input();" style="width: 200px;">清除</div> 
+	  <div class="button_middle" onclick="javascript:user_jump_over_question();">跳过</div>
+	  
+	  </div>
+  </div>
+
+  <div class='test_input_box'>
+  
+  
+  <div class="button_big" onclick="javascript:user_start_answer();">开始</div> 
+  
+  <br><br>
+  <p>
+  速度<select id="suda_speed_index">
+	 <option value ='0'>慢速</option>
+	 <option value ='1'selected="selected">正常</option>
+	 <option value ='2'>快速</option>
+	</select>
+	
+	溯答数<input id="suda_num" value="1" size="5">
+	</p>
+	
+  <!--
+  <a href="javascript:user_start_answer();">开始答题</a> 
+  
+  <br><br><br>
+  
+  <a href="javascript:init_question_answer_data(1,2,4);">初始化题目</a> |
+  <a href="javascript:next_question();">下一题</a> |
+  <a href="javascript:show_answer_right();">显示正确</a> |
+  <a href="javascript:show_answer_wrong();">显示错误</a> |
+  <a href="javascript:hide_answer_result();">清除正确错误</a> |
+  <a href="javascript:set_answer_number(5);">设置答案</a> |
+  
+  <a href="javascript:show_answer_question();">显示回答的题目</a> |
+  <a href="javascript:hide_answer_question();">隐藏回答的题目</a> |
+  <a href="javascript:set_title_level(2,2);">设置标题</a> |
+  <a href="javascript:total_time_continue();">时间继续</a> |
+  <a href="javascript:total_time_stop();">时间停止</a> |
+  <a href="javascript:total_time_set(0);">设置时间</a> |
+  <a href="javascript:question_time_running();">继续答题</a> |
+  <a href="javascript:question_time_stop();">暂停答题</a> |
+  
+  
+  <a href="javascript:show_question_box();">显示题目div</a> |
+  <a href="javascript:hide_question_box(1);">隐藏题目div</a> |
+  <a href="javascript:count_and_show_user_result();">运算显示用户答题结果</a> |
+  <a href="javascript:show_result_box();">显示答题结果div</a> |
+  <a href="javascript:hide_result_box();">隐藏答题结果div</a> |
+  -->
+  </div>
+	
+	
+<div class="hidden_box">
+	<div id="question_line_clone" class="question_line">
+	  <div class="question_box"><div class="txt_small">1题</div></div>
+	  <div class="num_box_1"><div class="txt_big">1</div></div>
+	  <div class="symbol_box"><div class="txt_big">-</div></div>
+	  <div class="num_box_2"><div class="txt_big">1</div></div>
+	  <div class="equal_box"><div class="txt_big">=</div></div>
+	  <div class="answer_box "><div class="txt_big">?</div></div>
+	</div>
+  </div>
+  
+  <script>
+  
+  
+  
+
+  var out_suda_speed_array=[
+	  {name:'慢速',answer_time:2000,switch_time:500},
+	  {name:'',answer_time:1500,switch_time:300},
+	  {name:'快速',answer_time:1000,switch_time:200}
+  ];//速度
+  var line_height=$("#question_line_clone").outerHeight();
+  $("#memory_line").height(line_height);
+  $("#answer_line").height(line_height);
+  
+	
+	//在问题栏上方插入一条新问题
+	function insert_question_line_clone(e_line,e,data){
+		if(!data){return;}
+		e.css({ y: ('-='+line_height+'px')});
+		
+		e.attr('id','line_'+data.id);
+		e.find('.question_box div').html(data.id+"题");
+		e.find('.num_box_1 div').html(data.num_1);
+		e.find('.symbol_box div').html(data.symbol.txt);
+		e.find('.symbol_box div').attr('class','txt_'+data.symbol.size);
+		e.find('.num_box_2 div').html(data.num_2);
+		e.find('.equal_box div').html(data.equal);
+		e.find('.answer_box div').html(data.answer);
+		e_line.prepend(e);
+	}
+	
+	//问题栏向下滚动，滚动完成后执行回调函数
+	function line_scoll(e_line,callback_function){
+		var e_childrens=e_line.children();
+		var switch_time=out_suda_speed_array[out_suda_speed_index].switch_time;
+		var i=0;//执行次数计数器
+		e_childrens.each(function(){
+		   //只有第一个执行回调函数
+		   if(i==0 && e_childrens.length>0){
+				$(this).transition({ y: ('+='+line_height+'px')}, switch_time, 'ease', callback_function);     // 任意
+		   }else{
+				$(this).transition({ y: ('+='+line_height+'px')}, switch_time, 'ease');     // 任意
+		   }
+		i++;
+	  });
+	}
+	
+	//删除问题栏的后面的数据，只保留第一条
+	function remove_last_child(e_line){
+	   var e_childrens=e_line.children();
+		var i=0;//执行次数计数器
+		e_childrens.each(function(){
+		   //除了第一个，其他的都移除
+		   if(i>0){
+				$(this).remove();     // 任意
+		   }
+		i++;
+		});
+	}
+	
+	function show_next_question(e_line_1,data_1,e_line_2,data_2,recall_function){
+		var e_question_line_clone=$("#question_line_clone");
+		insert_question_line_clone(e_line_1,e_question_line_clone.clone(),data_1);
+		line_scoll(e_line_1,function(){
+			remove_last_child(e_line_1);
+			if(data_1){
+				//console.log(1);
+				if(recall_function){
+					recall_function();
+				}
+			}
+		});
+		insert_question_line_clone(e_line_2,e_question_line_clone.clone(),data_2);
+		line_scoll(e_line_2,function(){
+			remove_last_child(e_line_2);
+			if((!data_1) && data_2){
+				//console.log(2);
+				if(recall_function){
+					recall_function();
+				}
+			}
+		});
+		if((!data_1) && (!data_2)){
+			//console.log(3);
+			if(recall_function){
+				recall_function();
+			}
+		}
+	}
+	
+	function show_answer_right(){
+		hide_answer_result();
+		
+		var div_append=$(document.createElement("div"));
+		div_append.html("O");
+		div_append.attr('class','result');
+		div_append.css({'color':'#08d035','scale': 1.5 });
+		$('#answer_line .question_line .answer_box').append(div_append);
+		div_append.transition({ scale: 1 },200);
+	}
+	
+	function show_answer_wrong(){
+		hide_answer_result();
+		
+		var div_append=$(document.createElement("div"));
+		div_append.html("X");
+		div_append.attr('class','result');
+		div_append.css({'color':'#ff0000','left': '4px' ,'scale': 1.5 });
+		$('#answer_line .question_line .answer_box').append(div_append);
+		div_append.transition({ scale: 1 },200);
+	}
+	
+	function hide_answer_result(){
+		$('#answer_line .question_line .answer_box .result').remove();
+	}
+	
+	function set_answer_number(number){
+		$('#answer_line .question_line .answer_box .txt_big').html(number);
+	}
+	
+	function hide_answer_number(){
+		$('#answer_line .question_line .answer_box .txt_big').html('_');
+	}
+	
+	function show_answer_question(){
+		var now_answer_index=out_now_question_index-out_suda_num;//当前问题下标
+		if(now_answer_index>=0 && now_answer_index<out_question_num){
+			var data_answer_now = clone_obj(out_question_array[now_answer_index]);
+			$('#answer_line .question_line .num_box_1 div').html(data_answer_now.num_1);
+			$('#answer_line .question_line .symbol_box div').html(data_answer_now.symbol.txt).attr('class','txt_big');
+			$('#answer_line .question_line .num_box_2 div').html(data_answer_now.num_2);
+		}
+	}
+	
+	function isExitsFunction(funcName) {
+		 try {
+			 if (typeof(eval(funcName)) == "function") {
+				 return true;
+			 }
+		 } catch(e) {}
+		 return false;
+	 }
+ 
+	function hide_answer_question(){
+		$('#answer_line .question_line .num_box_1 div').html('?');
+		$('#answer_line .question_line .symbol_box div').html('?').attr('class','txt_middle');
+		$('#answer_line .question_line .num_box_2 div').html('?');
+	}
+	
+	function set_title_level(suda_speed_index,suda_num){
+		$('.show_box .title .level').html(out_suda_speed_array[suda_speed_index].name+""+suda_num+"溯答");
+	}
+	
+	function set_title_time_number(time){
+		$('.show_box .title .time_box .time_num').html(Math.floor(time/1000));
+	}
+	
+	var total_time_Interval_id=null;
+	
+	function total_time_continue(recall_function){
+		var interval_millisec=1000;
+		if(total_time_Interval_id){
+			clearInterval(total_time_Interval_id);
+			total_time_Interval_id=null;
+		}
+		total_time_Interval_id = setInterval(function(){
+			out_time+=interval_millisec;
+			set_title_time_number(out_time);
+			if(recall_function){
+				recall_function();
+			}
+		},interval_millisec);
+	}
+	
+	function total_time_stop(){
+		if(total_time_Interval_id){
+			clearInterval(total_time_Interval_id);
+			total_time_Interval_id=null;
+		}
+	}
+	
+	function total_time_set(time){
+		out_time = time;
+		set_title_time_number(time);
+	}
+	
+	function clone_obj(myObj){ 
+		if(typeof(myObj) != 'object') return myObj; 
+		if(myObj == null) return myObj; 
+		var myNewObj = new Object(); 
+		for(var i in myObj) 
+		myNewObj[i] = clone_obj(myObj[i]); 
+		return myNewObj; 
+	} 
+
+	function next_question(){
+		
+		//清除之前用户的手写输入
+		user_draw_input.clear_canvas_input();
+		
+		out_now_question_index++;//当前问题下标 自增1
+		var e_memory_line=$("#memory_line");
+		var e_answer_line=$("#answer_line");
+		
+		var data_memory_now=null;
+		var data_answer_now=null;
+		
+		out_now_question_index;//当前问题下标
+		var now_answer_index=out_now_question_index-out_suda_num;//当前问题下标
+		
+		//获取当前问题数据
+		if(out_now_question_index>=0 && out_now_question_index<out_question_num){
+			data_memory_now = clone_obj(out_question_array[out_now_question_index]);
+			data_memory_now.id = out_now_question_index+1;
+			data_memory_now.answer = '?';
+			//console.log(data_memory_now);
+			//console.log(out_question_array[out_now_question_index]);
+		}
+		
+		//获取当前答案数据
+		if(now_answer_index>=0 && now_answer_index<out_question_num){
+			data_answer_now = clone_obj(out_question_array[now_answer_index]);
+			data_answer_now.id = now_answer_index+1;
+			data_answer_now.num_1 = '?';
+			data_answer_now.symbol.txt = '?';
+			data_answer_now.symbol.size = 'middle';
+			data_answer_now.num_2 = '?';
+			data_answer_now.answer = '_';
+			//console.log(data_answer_now);
+			//console.log(out_question_array[now_answer_index]);
+		}
+		
+		
+		out_user_answer_able = true;//用户可以输入
+		
+		//显示题目
+		show_next_question(e_memory_line,data_memory_now,e_answer_line,data_answer_now,function(){
+			//题目显示完成后，重置题目计时时间
+			out_now_answer_time=0;
+		});
+		
+		
+		if(now_answer_index>=out_question_num){
+			
+			question_time_stop();//停止答题
+			
+			//所有问题回答完成的回调函数
+			if(out_all_question_conplete_recall_function){
+				out_all_question_conplete_recall_function();
+			}
+		}
+	}
+	
+	//生成一道题目
+	function generate_one_question(){
+		var data={
+			id:0,
+			num_1:0,
+			symbol:{txt:'+',size:'big'},
+			num_2:0,
+			equal:'=',
+			answer:0,
+		};
+		data.answer=Math.floor(Math.random()*10);
+		data.num_1=Math.floor(Math.random()*10);
+		if(data.answer-data.num_1>=0){
+			data.num_2=data.answer-data.num_1;
+			data.symbol.txt="+";
+		}else{
+			data.num_2=data.num_1-data.answer;
+			data.symbol.txt="-";
+		}
+		return data;
+	}
+	
+	//生成所有题目
+	function generate_all_question(question_num){
+		var data_array=[];
+		for(var i=0;i<question_num;i++){
+			data_array.push(generate_one_question());
+		}
+		//console.log(data_array);
+		return data_array;
+	}
+	
+	var out_suda_num;//溯答数
+	var out_suda_speed_index;//训练速度数组下标
+	var out_time = 0;//当前锻炼时间,毫秒
+	var out_question_num;//问题个数
+	var out_now_question_index;//当前问题下标
+	var out_question_array;//所有题目数组
+	var out_answer_data_array;//所有回答数组
+	var out_now_answer_time=0;//当前回答用时
+	var out_all_question_conplete_recall_function;//所有问题回答完成后调用的函数
+	var out_user_answer_able=false;//用户是否可以输入
+	
+	//初始化题目数组和用户回答数组
+	function init_question_answer_data(suda_speed_index,suda_num,question_num){
+		out_suda_num=suda_num;
+		out_suda_speed_index=suda_speed_index;
+		out_question_num=question_num;
+		out_now_question_index=-1;
+		set_title_level(out_suda_speed_index,out_suda_num);
+		out_question_array=generate_all_question(question_num);
+		out_answer_data_array=[];
+		for(var i=0;i<question_num;i++){
+			out_answer_data_array.push({number:-1,result:false,trys:0,use_time:0});
+		}
+		$('#memory_line').html('');
+		$('#answer_line').html('');
+	}
+	
+	var question_time_Interval_id;
+	var question_time_up_Interval_id;
+	var interval_time_up=500;
+
+	//开始持续答题
+	function question_time_running(all_question_conplete_recall_function,out_of_time_recall_function){
+		out_all_question_conplete_recall_function=all_question_conplete_recall_function;
+		total_time_continue();//总时间继续
+		var interval_millisec=100;
+		if(question_time_Interval_id){
+			clearInterval(question_time_Interval_id);
+			question_time_Interval_id=null;
+		}
+		question_time_Interval_id = setInterval(function(){
+			out_now_answer_time+=interval_millisec;
+			if(out_now_answer_time > out_suda_speed_array[out_suda_speed_index].answer_time){
+				
+				out_user_answer_able = false;//用户不能回答
+				show_answer_wrong();//显示错误
+				show_answer_question();//显示回答的题目的问题
+				
+				var now_answer_index=out_now_question_index-out_suda_num;//当前问题下标
+		
+				//当前题目标记为做错,记录当前题目花费时间
+				if(now_answer_index>=0 && now_answer_index<out_question_num){
+					out_answer_data_array[now_answer_index].result=false;
+					out_answer_data_array[now_answer_index].use_time=out_now_answer_time;
+				}
+				
+				//一小段间隔之后进入下一题
+				if(question_time_up_Interval_id){
+					clearTimeout(question_time_up_Interval_id);
+					question_time_up_Interval_id=null;
+				}
+				question_time_up_Interval_id = setTimeout(function(){
+					next_question();//进入下一题
+				},interval_time_up);
+				
+				//调用超时的回调函数
+				if(out_of_time_recall_function){
+					out_of_time_recall_function();
+				}
+				out_now_answer_time= -999999999;
+				
+			}
+		},interval_millisec);
+	}
+	
+	function question_time_stop(){
+		total_time_stop();//总时间停止
+		if(question_time_Interval_id){
+			clearInterval(question_time_Interval_id);
+			question_time_Interval_id=null;
+		}
+	}
+	
+	function question_time_set(time){
+		out_now_answer_time = time;
+	}
+	
+	function question_time_add(time){
+		out_now_answer_time += time;
+	}
+	
+	//用户跳过当前问题
+	function user_jump_over_question(){
+		//用户不能回答则返回
+		if(!out_user_answer_able){
+			return;
+		}
+		
+		out_user_answer_able = false;//用户不能回答
+		
+		show_answer_wrong();//显示错误
+		show_answer_question();//显示回答的题目的问题
+		
+		var now_answer_index=out_now_question_index-out_suda_num;//当前问题下标
+		
+		//当前题目标记为做错,记录当前题目花费时间
+		if(now_answer_index>=0 && now_answer_index<out_question_num){
+			out_answer_data_array[now_answer_index].result=false;
+			out_answer_data_array[now_answer_index].use_time=out_now_answer_time;
+		}
+			
+		//一小段间隔之后进入下一题
+		if(question_time_up_Interval_id){
+			clearTimeout(question_time_up_Interval_id);
+			question_time_up_Interval_id=null;
+		}
+		question_time_up_Interval_id = setTimeout(function(){
+			next_question();//进入下一题
+		},interval_time_up);
+		
+		out_now_answer_time= -interval_time_up;
+		
+	}
+	
+	//用户回答问题答案
+	function user_answer_number(number_arr){
+	
+		//如果输入的是数字，则变成单元素数组
+		if(!(number_arr instanceof Array)){
+			number_arr=[number_arr];
+		}
+		
+		//用户不能回答则返回
+		if(!out_user_answer_able){
+			return;
+		}
+		
+		//清除正确错误标记
+		
+		var now_answer_index=out_now_question_index-out_suda_num;//当前问题下标
+		
+		
+		if(now_answer_index>=0 && now_answer_index<out_question_num){
+			//获取当前答案数据
+			var data_answer_now = clone_obj(out_question_array[now_answer_index]);
+			
+			var now_answer_number=number_arr[0];
+			var result_right=false;
+			
+			//console.log(number_arr);
+			for(var i=0;i<number_arr.length;i++){
+				var number=number_arr[i];
+				//判断当前答案数据
+				if(number == data_answer_now.answer){
+					result_right=true;
+					now_answer_number=number;
+					break;
+				}
+			}
+			
+			//答案正确
+			if(result_right){
+				out_user_answer_able = false;//用户不能回答
+					
+				out_answer_data_array[now_answer_index].result=true;
+					
+				show_answer_right();//显示正确
+				show_answer_question();//显示回答的题目的问题
+					
+				//一小段间隔之后进入下一题
+				if(question_time_up_Interval_id){
+					clearTimeout(question_time_up_Interval_id);
+					question_time_up_Interval_id=null;
+				}
+				question_time_up_Interval_id = setTimeout(function(){
+					next_question();//进入下一题
+				},interval_time_up);
+					
+				out_now_answer_time= -interval_time_up;
+			}else{
+				//答案错误
+				out_answer_data_array[now_answer_index].result=false;
+			}
+			
+			//设置答案
+			set_answer_number(now_answer_number);
+			
+			out_answer_data_array[now_answer_index].number=now_answer_number;
+			out_answer_data_array[now_answer_index].trys++;
+			out_answer_data_array[now_answer_index].use_time=out_now_answer_time;
+			
+		}
+		
+	}
+	
+	//计算和显示用户的溯答结果
+	function count_and_show_user_result(){
+		
+		//运算正确题目数
+		var right_count=0;
+		for(var i=0;i<out_question_num;i++){
+			if(out_answer_data_array[i].result){
+				right_count++;
+			}
+		}
+		//计算正确率
+		var right_percent=0;
+		if(out_question_num>0){
+			right_percent=right_count/out_question_num;
+		}
+		//显示正确动画
+		var right_show_Interval_id;
+		var right_show_index=0;
+		var right_show_right_count=0;
+		
+		var right_show_Interval_millisec=100;
+		if(right_show_Interval_id){
+			clearInterval(right_show_Interval_id);
+			right_show_Interval_id=null;
+		}
+		var e_right_num = $('#word_result_box .right_num');
+		var e_right_num_div = $('#word_result_box .right_num div');
+		var e_total_num_div = $('#word_result_box .total_num div');
+		var e_pic_right_wrong = $('#pic_result_box .pic_right_wrong');
+		var e_right_percent_div = $('#word_result_box .right_percent div');
+		e_right_num_div.html("0题");//显示一开始时候的正确题目数
+		e_total_num_div.html(out_question_num+"题");//显示总题目数
+		e_pic_right_wrong.html('');//清除之前的答案
+		e_right_percent_div.hide().html('');//清除之前的百分比
+		
+		right_show_Interval_id = setInterval(function(){
+			var div_append=$(document.createElement("div"));
+			if(out_answer_data_array[right_show_index].result){
+				right_show_right_count++;
+				e_right_num_div.html(right_show_right_count+"题");
+				e_right_num_div.css({'scale':'1.3'}).transition({ scale: 1 },100);
+				
+				div_append.attr('class','right');
+				div_append.html('O');
+			}else{
+				div_append.attr('class','wrong');
+				div_append.html('X');
+			}
+			div_append.css({'scale':'2'});
+			e_pic_right_wrong.append(div_append);
+			div_append.transition({ scale: 1 },right_show_Interval_millisec);
+			
+			right_show_index++;
+			//到达最后一个
+			if(right_show_index>=out_question_num){
+				if(right_show_Interval_id){
+					clearInterval(right_show_Interval_id);
+					right_show_Interval_id=null;
+				}
+				
+				setTimeout(function(){
+					//显示正确率
+					e_right_percent_div.html(Math.round(right_percent*100)+'%').show();
+					$('#word_result_box .right_percent').transition({ scale: 1.3 },500).transition({ scale: 1 },500);
+				},100);
+				
+			}
+		},right_show_Interval_millisec);
+	}
+	
+	function reset_user_result(question_num){
+		var e_right_num_div = $('#word_result_box .right_num div');
+		var e_total_num_div = $('#word_result_box .total_num div');
+		var e_pic_right_wrong = $('#pic_result_box .pic_right_wrong');
+		var e_right_percent_div = $('#word_result_box .right_percent div');
+		e_right_num_div.html("0题");//显示一开始时候的正确题目数
+		if(!question_num){
+			question_num=0;
+		}
+		e_total_num_div.html(question_num+"题");//显示总题目数
+		e_pic_right_wrong.html('');//清除之前的答案
+		e_right_percent_div.hide().html('');//清除之前的百分比
+	}
+	
+	function show_result_box(callback_function){
+		$('#result_box').css({display: 'block' }).transition({ opacity: '1'},500, 'ease', callback_function);
+	}
+	
+	function hide_result_box(callback_function){
+		$('#result_box').css({display: 'none' }).transition({ opacity: '0' },500, 'ease', callback_function);
+	}
+	
+	function show_question_box(callback_function){
+		var time=500;
+		$('#user_answer_box').css({display: 'block' }).transition({ opacity: '1' },time, 'ease');
+		$('#question_box').css({display: 'block' }).transition({ opacity: '1' },time, 'ease', callback_function);
+	}
+	
+	function hide_question_box(callback_function){
+		var time=500;
+		$('#user_answer_box').css({display: 'none' }).transition({ opacity: '0' },time, 'ease');
+		$('#question_box').css({display: 'none' }).transition({ opacity: '0' },time, 'ease', callback_function);
+	}
+	
+	//初始化用户输入框的点击事件
+	function init_num_input_box_onclick(){
+		var click_disable_time_up_Interval_id;
+		var num_button_click_able=true;
+		var num_button_click_interval=300;
+		var e_num_input_box=$('#num_input_box');
+		
+		var number_input = function(num,e_touch_num_div){
+					user_answer_number(num);
+					num_button_click_able=false;//不可点击
+					if(e_touch_num_div){
+						e_touch_num_div.css({ opacity: '0.8' });//颜色变暗
+					}
+					
+					//一小段间隔之后才能点击
+					if(click_disable_time_up_Interval_id){
+						clearTimeout(click_disable_time_up_Interval_id);
+						click_disable_time_up_Interval_id=null;
+					}
+					click_disable_time_up_Interval_id = setTimeout(function(){
+						num_button_click_able=true;//一小段间隔之后才能点击
+						if(e_touch_num_div){
+							e_touch_num_div.css({ opacity: '1' });//颜色回复
+						}
+					},num_button_click_interval);
+		}
+		
+		$('#user_answer_box #num_input_box .num_button').on('touchstart',function(e) {
+			if(!num_button_click_able){
+				return;
+			}
+			//console.log(e);
+			var e_touch_num_div=$(e.currentTarget);
+			if(e_touch_num_div){
+				var key=e_touch_num_div.attr('key');
+				if(key && (key!='*' && key!='#')){
+					var num=parseInt(key);
+					number_input(num,e_touch_num_div);
+				}
+			}
+			//var _touch = e.originalEvent.targetTouches[0];
+			//var _x= _touch.pageX;
+		});
+		
+		//记录键盘输入，可以用电脑键盘来玩
+		$("body").keydown(function(event){
+			if(!num_button_click_able){
+				return;
+			}
+			e_num_input_box
+			var key_code=event.which;
+			var num=-1;
+			if(key_code>47 && key_code< 58){
+				num=key_code-48;
+			}else if(key_code >95 && key_code< 106){
+				num=key_code - 96;
+			}
+			if(num<0){
+				return;
+			}
+			var e_touch_num_div=e_num_input_box.find('.num_button[key="'+num+'"]');
+			number_input(num,e_touch_num_div);
+		});
+		
+	}
+	init_num_input_box_onclick();
+	
+	function get_question_num(suda_num){
+		var nun1=20+suda_num*2;
+		var nun2=suda_num*3;
+		return (nun1>nun2)?nun1:nun2;
+	}
+	
+	//用户开始答题
+	function user_start_answer(){
+		//隐藏结果显示盒子
+		hide_result_box(function(){
+			//隐藏回答的题目
+			hide_question_box(function(){
+				
+				var suda_speed_index=$('#suda_speed_index').val();//0慢速 1正常 2快速
+				var suda_num=$('#suda_num').val();//5溯答
+				var question_num=get_question_num(suda_num);//总题目数
+				//初始化题目
+				init_question_answer_data(suda_speed_index,suda_num,question_num);
+				//显示问题盒子
+				show_question_box(function(){
+					//开始答题
+					question_time_running(function(){
+						//答题结束之后
+						
+						//隐藏问题盒子
+						hide_question_box(function(){
+							//删除上一次的结果
+							reset_user_result(question_num);
+							//显示结果盒子
+							show_result_box(function(){
+								//运算显示用户答题结果
+								count_and_show_user_result();
+							});
+						});
+					});
+				});
+				
+			});
+		});
+	}
+	
+	
+	//评价
+	var evaluate_word_arr=[
+		{rate:100,word:'太厉害了！'}
+	]
+	
+	
+	
+  </script>
+</body>
+</html>

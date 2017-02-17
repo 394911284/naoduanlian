@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+  <title>数字溯答</title>
+  <script>
+    (function() {
+      function addScript(src) {
+        document.write("<scr"+"ipt src='"+src+"'></scr"+"ipt>");
+      }
+      addScript("js/jquery.js");
+      addScript("js/jquery.transit.js");
+      addScript("js/user_draw_input.js?v=1");
+    })();
+  </script>
+  
+  <link href="css/shuzisuda.css" rel="stylesheet" />
+</head>
+<body>
+
+  <div class='show_box'>
+  
+	  <div id="control_div">
+	  
+	  
+	  <a href="javascript:user_draw_input.load_json_data();">读取数据</a><br>
+	  <a href="javascript:user_draw_input.clear_canvas_input();">清空画布</a><br>
+	  <a href="javascript:user_draw_input.show_now_draw_word();">获取当前文字</a><br>
+	  当前录入文字<input id="now_input_word" value="1"><br>
+	  <a href="javascript:user_draw_input.draw_complete_fucntion();user_draw_input.clear_canvas_input();">录入数据</a><br>
+	  
+	  <textarea id="output_data_textarea"></textarea>
+	  </div>
+	  
+	  
+	<canvas id="user_input_canvas" width="300" height="200" style="width: 100%;">
+	Your browser does not support the canvas element.
+	</canvas>
+	  
+	  <div id="output_div">
+	  </div>
+	  
+	  <div id="output_word">
+	  </div>
+	  
+	  
+  </div>
+
+  
+</body>
+</html>

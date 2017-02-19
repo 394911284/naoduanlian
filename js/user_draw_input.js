@@ -143,6 +143,10 @@ $(function() {
 				//遍历每个文字中的所有样本
 				for(var i=0;i<data_obj.data[j].num_str_arr.length;i++){
 					var similarity_total=0;//相似度总和
+					var similarity_total_num1=0;//样本一不为空的相似度总和
+					var similarity_count_num1=0;//样本一不为空的个数
+					var similarity_total_num2=0;//样本二不为空的相似度总和
+					var similarity_count_num2=0;//样本一不为空的个数
 					//遍历样本的所有点
 					for(var word_index=0;word_index<data_obj.data[j].num_str_arr[i].length;word_index++){
 						//获得样本当前点的数字
@@ -150,11 +154,31 @@ $(function() {
 						//获得对应位置当前输入图像的数字
 						var num2=parseInt(small_points_arr[word_index]);
 						//运算相似度百分比，因为数字最大为9，所以相差等于9则完全不相似，相差等于0则完全相似
+						var num_similarity=1-Math.abs((num1-num2)/9);
+						//样本当前点为0的位置不统计相似度
+						if(num1!=0){
+							similarity_total_num1+=num_similarity;
+							similarity_count_num1++;
+						}
+						if(num1!=0||num2!=0){
+							similarity_total_num2+=num_similarity;
+							similarity_count_num2++;
+						}
 						//相似度总和累加当前点的相似度百分比
-						similarity_total+=1-Math.abs((num1-num2)/9)
+						similarity_total+=num_similarity;
 					}
+					var similarity=0;
 					//运算每个点的平均相似度，作为样本和当前输入内容的相似度
-					var similarity=similarity_total/data_obj.data[j].num_str_arr[i].length;
+					
+					if(similarity_count_num1>0){
+						//similarity=similarity_total/data_obj.data[j].num_str_arr[i].length;
+						//相似度以 1.样本不为零的位置的点的相似度平均数 和 2.样本不为零不为零的点和所有不为零得点的个数对比 决定
+						similarity=(similarity_total_num1/similarity_count_num1);
+						var num_count_rate=similarity_count_num1/similarity_count_num2;
+						similarity*=num_count_rate;
+					}
+					
+					
 					//将当前样本的文字所在下标，文字中样本所在下标，文字是什么，还有当前样本的相似度存到数组中
 					similarity_arr.push({
 						data_index:j,

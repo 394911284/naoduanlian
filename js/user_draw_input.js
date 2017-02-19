@@ -252,6 +252,7 @@ $(function() {
 				bbox_top=bbox.top;
 				//console.log(bbox_top);
 				cxt.beginPath();//开始画画
+				cxt.lineWidth="3";//画的线的粗细
 				//获取手指的点击位置
 				var _touch = e.originalEvent.targetTouches[0];
 				//运算当前画画的点在画板上的坐标

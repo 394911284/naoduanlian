@@ -6,7 +6,7 @@ $(function() {
 	//手写输入系统
 	user_draw_input = function(){
 		//识别的样本json文件位置
-		var word_data_json_path="./word_data.json?v=5"
+		var word_data_json_path="./word_data.json?v=6"
 		//用来输入的canvas画板
 		var c=document.getElementById("user_input_canvas");
 		var cxt=c.getContext("2d");//在画板上新建一个层?

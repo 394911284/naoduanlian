@@ -379,7 +379,7 @@ $(function() {
 				}
 				
 				var available_word_max_num=3;
-				var available_word_similarity_min=0.7;
+				var available_word_similarity_min=0.3;
 				var available_word_arr=get_available_word_arr(similarity_out_arr,available_word_similarity_min,available_word_max_num);
 				
 				try{ 

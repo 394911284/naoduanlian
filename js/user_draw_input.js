@@ -324,7 +324,7 @@ $(function() {
 				rate1 = (rate1 < 1) ? rate1 : 1;
 				rate2 = (rate2 < 1) ? rate2 : 1;
 				
-				/*
+				
 				//长宽缩放的倍率的差异度保护值?
 				var protect_rate=5;
 				//如果长宽差异过大，则将缩放过度的数据调小?
@@ -333,7 +333,7 @@ $(function() {
 				}else if((rate1/rate2)>protect_rate){
 					rate1=rate2/protect_rate;
 				}
-				*/
+				
 				
 				//console.log(rate1);
 				//console.log(rate2);

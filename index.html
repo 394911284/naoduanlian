@@ -477,6 +477,10 @@
 
 	//开始持续答题
 	function question_time_running(all_question_conplete_recall_function,out_of_time_recall_function){
+		//如果刚刚开始，则进入第一题
+		if(out_now_question_index == -1){
+			next_question();//进入下一题
+		}
 		out_all_question_conplete_recall_function=all_question_conplete_recall_function;
 		total_time_continue();//总时间继续
 		var interval_millisec=100;

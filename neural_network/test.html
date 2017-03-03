@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title></title>
+  
+  <script>
+    (function() {
+      function addScript(src) {
+        document.write("<scr"+"ipt src='"+src+"'></scr"+"ipt>");
+      }
+      addScript("js/numeric-1.2.6.min.js");
+      addScript("js/jquery.js");
+    })();
+  </script>
+</head>
+<body>
+  <script>
+  // Sigmod function
+function nonlin(x, deriv) {
+  if (deriv) {
+    return numeric.mul(x, numeric.sub(1, x));
+  }
+
+  return numeric.div(1, numeric.add(1, numeric.exp(numeric.neg(x))));
+}
+
+function train_neural(X, y, iteration) {
+  // initialize weights
+  var syn0 = numeric.sub(numeric.mul(2, numeric.random([3, 1])), 1);
+  syn0=[
+  [0.16946096159517765],
+  [0.8312093010172248],
+  [0.8257169425487518]
+];
+  
+
+
+
+  
+  
+  show_data('输入X',X);
+  show_data('输出y',y);
+  show_data('参数 syn0',syn0);
+	$("body").append('<hr>');
+  //Training loop
+  var i = 0;
+  for (; i < iteration; i++) {
+	$("body").append('第'+(i+1)+'次训练');
+    var l0 = X;
+    var l1_pre = numeric.dot(l0, syn0);
+	show_data('结果 l1_pre',l1_pre);
+	
+    var l1 = nonlin(l1_pre);
+	show_data('结果0-1化 l1',l1);
+	
+    var l1_error = numeric.sub(y, l1);
+	show_data('结果差距 l1_error',l1_error);
+	
+	var l1_rate = nonlin(l1, true);
+	show_data('结果斜率 l1_rate',l1_rate);
+	
+    var l1_delta = numeric.mul(l1_error, l1_rate);
+	show_data('结果变化 l1_delta',l1_delta);
+	
+    syn0 = numeric.add(syn0, numeric.dot(numeric.transpose(l0), l1_delta));
+	show_data('参数 syn0 ',syn0);
+	
+	$("body").append('<hr>');
+  } 
+  show_data('syn0',syn0);
+}
+
+function show_data(name,data_arr){
+	var div_html='';
+	if(data_arr){
+		div_html += '<p>'+name+'</p>';
+		div_html += '<table border="1">';
+		var len_j = data_arr.length;
+		for(var j = 0;j<len_j;j++){
+			var len_i = data_arr[j].length;
+			div_html += '<tr>';
+			for(var i = 0;i<len_i;i++){
+				div_html += '<th>'+data_arr[j][i]+'</th>';
+			}
+			div_html += '</tr>';
+		}
+	}
+	div_html += '</table>';
+	$("body").append(div_html);
+}
+
+//Initial input/ouput values
+var X = [
+  [0, 0, 1],
+  [0, 1, 1],
+  [1, 0, 1],
+  [1, 1, 1]
+];
+
+var y = [
+  [0],
+  [0],
+  [1],
+  [1]
+];
+
+train_neural(X, y, 10);
+
+  </script>
+</body>
+</html>

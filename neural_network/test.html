@@ -52,16 +52,16 @@ function train_neural(X, y, iteration) {
 	show_data('结果 l1_pre',l1_pre);
 	
     var l1 = nonlin(l1_pre);
-	show_data('结果0-1化 l1',l1);
+	show_data('l1_pre 0-1化 l1',l1);
 	
     var l1_error = numeric.sub(y, l1);
-	show_data('结果差距 l1_error',l1_error);
+	show_data('和正确答案差距 l1_error',l1_error);
 	
 	var l1_rate = nonlin(l1, true);
-	show_data('结果斜率 l1_rate',l1_rate);
+	show_data('l1_pre斜率 l1_rate (l1_pre越接近于0数值越大)',l1_rate);
 	
     var l1_delta = numeric.mul(l1_error, l1_rate);
-	show_data('结果变化 l1_delta',l1_delta);
+	show_data('结果变化 l1_delta (由l1_error 和 l1_rate 相乘得到)',l1_delta);
 	
     syn0 = numeric.add(syn0, numeric.dot(numeric.transpose(l0), l1_delta));
 	show_data('参数 syn0 ',syn0);

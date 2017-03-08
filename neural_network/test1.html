@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title></title>
+  
+  <script>
+    (function() {
+      function addScript(src) {
+        document.write("<scr"+"ipt src='"+src+"'></scr"+"ipt>");
+      }
+      addScript("js/numeric-1.2.6.min.js");
+      addScript("js/jquery.js");
+    })();
+  </script>
+</head>
+<body>
+  <script>
+  // Sigmod function
+function nonlin(x, deriv) {
+  if (deriv) {
+    return numeric.mul(x, numeric.sub(1, x));
+  }
+
+  return numeric.div(1, numeric.add(1, numeric.exp(numeric.neg(x))));
+}
+
+
+function train_neural(X, y, iteration) {
+  // initialize weights
+  var syn0,syn1;
+  syn0 = [
+    [-0.1653904, 0.11737966, -0.71922612, -0.60379702],
+    [0.60148914, 0.93652315, -0.37315164, 0.38464523],
+    [0.7527783, 0.78921333, -0.82991158, -0.92189043]
+  ];
+
+  syn1 = [
+    [-0.66033916],
+    [0.75628501],
+    [-0.80330633],
+    [-0.15778475]
+  ];
+  
+  /*
+  syn0 = [
+    [-4, 3, -4, -6],
+    [6, 3, -4, 3],
+    [1, 0, 0, -1]
+  ];
+
+  syn1 = [
+    [-7],
+    [4],
+    [-4],
+    [7]
+  ];
+*/
+  //Training loop
+  var i = 0;
+  var l2;
+   
+  for (; i < iteration; i++) {
+    var l0 = X;
+    var l1 = nonlin(numeric.dot(l0, syn0));
+    l2 = nonlin(numeric.dot(l1, syn1));
+    var l2_error = numeric.sub(y, l2);
+    var l2_delta = numeric.mul(l2_error, nonlin(l2, true));
+    var l1_error = numeric.dot(l2_delta, numeric.transpose(syn1));
+    var l1_delta = numeric.mul(l1_error, nonlin(l1, true));
+    syn1 = numeric.add(syn1, numeric.dot(numeric.transpose(l1), l2_delta));
+    syn0 = numeric.add(syn0, numeric.dot(numeric.transpose(l0), l1_delta));
+  }
+  
+  show_data('l2',l2);
+  show_data('syn1',syn1);
+  show_data('syn0',syn0);
+}
+
+//Initial input/output values
+var X = [
+  [0, 0, 1],
+  [0, 1, 1],
+  [1, 0, 1],
+  [1, 1, 1]
+];
+
+var y = [
+  [0],
+  [1],
+  [1],
+  [0]
+];
+
+train_neural(X, y, 1000);
+
+function show_data(name,data_arr){
+	var div_html='';
+	if(data_arr){
+		div_html += '<p>'+name+'</p>';
+		div_html += '<table border="1">';
+		var len_j = data_arr.length;
+		for(var j = 0;j<len_j;j++){
+			var len_i = data_arr[j].length;
+			div_html += '<tr>';
+			for(var i = 0;i<len_i;i++){
+				div_html += '<th>'+data_arr[j][i]+'</th>';
+			}
+			div_html += '</tr>';
+		}
+	}
+	div_html += '</table>';
+	$("body").append(div_html);
+}
+
+
+  </script>
+</body>
+</html>

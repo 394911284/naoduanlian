@@ -63,7 +63,10 @@ function train_neural(X, y, iteration) {
     var l1_delta = numeric.mul(l1_error, l1_rate);
 	show_data('结果变化 l1_delta (由l1_error 和 l1_rate 相乘得到)',l1_delta);
 	
-    syn0 = numeric.add(syn0, numeric.dot(numeric.transpose(l0), l1_delta));
+    var syn0_update = numeric.dot(numeric.transpose(l0), l1_delta);
+	show_data('syn0更新 syn0_update (由l0 翻转 和 l1_delta 进行矩阵乘法得到)',syn0_update);
+	
+    syn0 = numeric.add(syn0, syn0_update);
 	show_data('参数 syn0 ',syn0);
 	
 	$("body").append('<hr>');

@@ -12,6 +12,7 @@
       addScript("js/jquery.js");
       addScript("js/jquery.transit.js");
       addScript("js/user_draw_input.js?v=1");
+      addScript("js/numeric-1.2.6.min.js");
     })();
   </script>
   
@@ -31,7 +32,8 @@
 	  当前录入文字<input id="now_input_word" value="1">
 	  <a href="javascript:user_draw_input.save_now_draw_data();user_draw_input.clear_canvas_input();">录入数据</a><br>
 	  
-	  <a href="javascript:user_draw_input.clear_canvas_input();">清空画布</a><br><br>
+	  <a href="javascript:user_draw_input.clear_canvas_input();">清空画布</a><br>
+	  <a href="javascript:user_draw_input.start_train_neural();">训练网络</a><br><br>
 	  
 	  </div>
 	  
@@ -39,6 +41,11 @@
 	<canvas id="user_input_canvas" width="300" height="200" style="width: 100%;">
 	Your browser does not support the canvas element.
 	</canvas>
+	  
+	  
+	  
+	  <div id="train_neural_div">
+	  </div>
 	  
 	  <div id="output_div">
 	  </div>
@@ -49,6 +56,8 @@
 	  样本数据json格式
 	  <textarea id="output_data_textarea"></textarea><br>
 	  
+	  神经节点数据json格式
+	  <textarea id="syn_data_textarea"></textarea><br>
   </div>
 
   

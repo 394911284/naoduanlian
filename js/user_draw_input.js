@@ -491,7 +491,7 @@ $(function() {
 			}
 			return available_word_arr;
 		}
-		
+		//数字前面补零
 		function num_pad_0(num, n) {  
 			var len = num.toString().length;  
 			while(len < n) {  
@@ -545,7 +545,7 @@ $(function() {
 
 		  return numeric.div(1, numeric.add(1, numeric.exp(numeric.neg(x))));
 		}
-		
+		//训练神经网络
 		function train_neural(neural_network_data,hide_nodes_num, iteration) {
 			
 			var input_length = neural_network_data.width * neural_network_data.height;

@@ -657,8 +657,7 @@ $(function() {
 			load_json_data_from_json_file:load_json_data_from_json_file, 
 			clear_canvas_input:clear_canvas_input, 
 			show_now_draw_word:show_now_draw_word, 
-			save_now_draw_data:save_now_draw_data, 
-			clear_canvas_input:clear_canvas_input, 
+			save_now_draw_data:save_now_draw_data,
 			start_train_neural:start_train_neural, 
 		} 
 		}();
